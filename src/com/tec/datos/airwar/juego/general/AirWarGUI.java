@@ -4,7 +4,6 @@ import com.tec.datos.airwar.estructuras.*;
 import com.tec.datos.airwar.estructuras.List;
 import com.tec.datos.airwar.juego.enemigos.Jet;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -49,12 +48,12 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         disparos_enemigos = new List<>();
         disparos.addLast(new Municion(jugador.getX(), jugador.getY(), 5));
 
-        disparos_enemigos.addLast(new Municion(250,50,10));
-
         this.addKeyListener(this);
         new Thread(this).start();
 
         setVisible(true);
+
+        cargar_disparos_enemigos();
 
         iniciar_ataque();
         generar_naves_enemigas();
@@ -109,7 +108,7 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
             fondo = (BufferedImage) (createImage(getWidth(), getHeight()));
         }
 
-        //El fondo donde se dibuja todo.
+        //El fondo donde se dibuja.
         Graphics g_fondo = fondo.createGraphics();
 
         g_fondo.setColor(Color.BLUE);
@@ -134,6 +133,7 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void dibujar_enemigos(Graphics g){
 
         try {
@@ -169,7 +169,8 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         }
     }
 
-    public void dibujar_disparos(Graphics g){
+    @SuppressWarnings("unchecked")
+    private void dibujar_disparos(Graphics g){
 
         Node<Municion> municion_jugador = disparos.getHead();
         while (municion_jugador.getNext() != null) {
@@ -182,13 +183,10 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
     }
 
 
-    public void dibujar_disparos_enemigos(Graphics g, int x, int y){
+    @SuppressWarnings("unchecked")
+    private void dibujar_disparos_enemigos(Graphics g, int x, int y){
 
-        //AQUI SE AGREGA LOS DISPAROS ENEMIGOS.
-
-        // Se quiere simular el disparo que hace el jugador, pero como es un loop hay que replantear la forma de agregar las balas de los enemigos para que la lista no crezca tanto o manejar su crecimiento.
-
-        disparos_enemigos.addLast(new Municion(x,y, 10));
+        cambiar_posicion_disparos_enemigos(x,y);
 
         Node<Municion> municion_enemiga = disparos_enemigos.getHead();
 
@@ -217,27 +215,27 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
      */
     private void verificar_accion(){
 
-        if(keys[0] == true){
+        if(keys[0]){
             if(jugador.getX() > 10){
                 jugador.mover("LEFT");
             }
         }
-        if(keys[1] == true){
+        if(keys[1]){
             if(jugador.getX() < 700){
                 jugador.mover("RIGHT");
             }
         }
-        if(keys[2] == true){
+        if(keys[2]){
             if(jugador.getY() > 10){
                 jugador.mover("DOWN");
             }
         }
-        if(keys[3] == true){
+        if(keys[3]){
             if(jugador.getY() < 500){
                 jugador.mover("UP");
             }
         }
-        if(keys[4] == true){
+        if(keys[4]){
             Municion disparo_jugador = new Municion(jugador.getX()+28, jugador.getY(), 5);
             disparos.addLast(disparo_jugador);
 
@@ -303,7 +301,7 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
     /**
      * Genera naves enemigas aleatoriamente.
      */
-    public void generar_naves_enemigas(){
+    private void generar_naves_enemigas(){
 
         int x = rd.nextInt(800); //(int)(Math.random()*getWidth());
         int y = rd.nextInt(30);//(int)(Math.random()*(getHeight()-200));
@@ -311,13 +309,13 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         if(timer_enemigo.isRunning()){
             naves_enemigas.enqueue(ObjetoMovil.generar_nave_aleatoria(x, y));
 
-            System.out.print("SIZE: " + disparos_enemigos.getSize());
+            System.out.println("SIZE: " + disparos_enemigos.getSize());
         }
     }
     /**
      *Inicia la aparición de naves, iniciando el timer.
      */
-    public void iniciar_ataque(){
+    private void iniciar_ataque(){
 
         if(timer_enemigo == null){
 
@@ -356,6 +354,32 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         }
         catch(Exception e){
 
+        }
+    }
+
+    private void cargar_disparos_enemigos(){
+
+        int i = 0;
+
+        while (i < 1000){
+            disparos_enemigos.addLast(new Municion(50,50,20));
+            i++;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void cambiar_posicion_disparos_enemigos(int x, int y){
+
+        Node<Municion> municion_enemiga = disparos_enemigos.getHead();
+
+        int cambio = 20;
+
+        while (municion_enemiga.getNext() != null){
+            municion_enemiga.getData().setX(x + 30);
+            municion_enemiga.getData().setY(y + cambio);
+
+            municion_enemiga = municion_enemiga.getNext();
+            cambio += 20;
         }
     }
 

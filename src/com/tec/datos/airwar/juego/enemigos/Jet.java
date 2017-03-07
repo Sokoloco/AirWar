@@ -1,6 +1,8 @@
 package com.tec.datos.airwar.juego.enemigos;
 
+import com.tec.datos.airwar.juego.general.Municion;
 import com.tec.datos.airwar.juego.general.ObjetoMovil;
+import com.tec.datos.airwar.estructuras.List;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,6 +31,7 @@ public class Jet extends ObjetoMovil {
         {
 
         }
+
     }
 
     public int getVELOCIDAD()

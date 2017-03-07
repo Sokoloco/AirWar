@@ -1,8 +1,10 @@
 package com.tec.datos.airwar.juego.general;
 
+import com.tec.datos.airwar.estructuras.Node;
 import com.tec.datos.airwar.juego.enemigos.Bombardero;
 import com.tec.datos.airwar.juego.enemigos.Jet;
 import com.tec.datos.airwar.juego.enemigos.Kamikaze;
+import com.tec.datos.airwar.estructuras.List;
 
 import java.awt.*;
 import java.util.Random;
@@ -13,6 +15,7 @@ public abstract class ObjetoMovil implements Localizable
     private int xPos;
     private int yPos;
     private String tipo;
+    private List<Municion> disparos;
 
     private static Random rd = new Random();
 
@@ -20,6 +23,8 @@ public abstract class ObjetoMovil implements Localizable
     public ObjetoMovil(){
         xPos = 0;
         yPos = 0;
+
+        disparos = new List();
     }
 
 
@@ -128,6 +133,7 @@ public abstract class ObjetoMovil implements Localizable
     public String get_tipo(){
         return tipo;
     }
+
 
     /**
      * Summarizes a ObjetoMovil's statistics in a String

@@ -1,8 +1,6 @@
 package com.tec.datos.airwar.juego.general;
 
 import com.tec.datos.airwar.estructuras.*;
-import com.tec.datos.airwar.estructuras.List;
-import com.tec.datos.airwar.juego.enemigos.Jet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,53 +9,40 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.util.Random;
+import javax.swing.Timer;
 
 public class AirWarGUI extends Canvas implements KeyListener, Runnable{
 
     private NaveJugador jugador;
-
-    private Queue<ObjetoMovil> naves_enemigas;
-    private List<Municion> disparos;
-    private List<Municion> disparos_enemigos;
+    private Nivel nivel;
 
     private boolean[] keys;
     private BufferedImage fondo;
-    private final int ATAQUE_ENEMIGO = 2000;//2 seconds
-    private Timer timer_enemigo;
-    private int nivel;
+    private Timer timer_naves;
 
-    private Random rd = new Random();
+    private Graphics g_fondo;
 
     /**
      * Constructor; instancia todas las estructuras y demás datos del juego.
      */
-    public AirWarGUI() {
+    public AirWarGUI(Nivel nivel) {
 
         setBackground(Color.black);
 
         keys = new boolean[5];
 
+        this.nivel = nivel;
+
         jugador = new NaveJugador(400, 450);
-        naves_enemigas = new Queue<>();
-        naves_enemigas.enqueue(new Jet(250,50));
 
-        nivel = 1;
-
-        disparos = new List<>();
-        disparos_enemigos = new List<>();
-        disparos.addLast(new Municion(jugador.getX(), jugador.getY(), 5));
+        jugador.get_municion().addLast(new Municion(jugador.getX(), jugador.getY(), 5));
 
         this.addKeyListener(this);
         new Thread(this).start();
 
         setVisible(true);
 
-        cargar_disparos_enemigos();
-
         iniciar_ataque();
-        generar_naves_enemigas();
-
     }
 
     /**
@@ -82,7 +67,7 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
 
         g.setColor(Color.ORANGE);
         g.setFont(new Font("Impact", Font.PLAIN, 25));
-        g.drawString("Nivel: " + String.valueOf(nivel), 25, 100);
+        g.drawString("Nivel: " + String.valueOf(nivel.numero_nivel), 25, 100);
 
         g.setColor(Color.GREEN);
         g.drawString("HP:" + String.valueOf(jugador.get_hp()), 25, 130);
@@ -109,7 +94,7 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         }
 
         //El fondo donde se dibuja.
-        Graphics g_fondo = fondo.createGraphics();
+        g_fondo = fondo.createGraphics();
 
         g_fondo.setColor(Color.BLUE);
         g_fondo.drawString("AirWar ", 25, 50 );
@@ -119,7 +104,7 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         dibujar_estadisticas_jugador(g_fondo);
 
         verificar_accion();
-        dibujar_enemigos(g_fondo);
+        dibujar_enemigos(g_fondo, nivel.getNaves_enemigas().getHead());
         dibujar_disparos(g_fondo);
         verificar_puntaje();
 
@@ -128,51 +113,50 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
     }
 
     private void verificar_puntaje(){                       //Cuando se pase de nivel se detiene el timer y se genera al jefe. Cuando el jefe es vencido se reinicia el timer y se continua normal.
-        if (jugador.get_puntaje() > 3000 && nivel == 1){
-            nivel++;
+        if (jugador.get_puntaje() > 3000 && nivel.numero_nivel == 1){
+            //Aqui debe iniciarse un nuevo nivel
+            nivel.numero_nivel++;
         }
     }
 
+
     @SuppressWarnings("unchecked")
-    private void dibujar_enemigos(Graphics g){
+    private void dibujar_enemigos(Graphics g, Node<ObjetoMovil> nave) {
 
         try {
-            Node<ObjetoMovil> nave = naves_enemigas.getHead();
-            while (nave.getNext() != null) {
 
-                nave.getData().draw(g);
-                dibujar_disparos_enemigos(g, nave.getData().getX() + 30, nave.getData().getY() + 30);
-                if (nave.getData().getX() <= 1000) {
-                    if (nave.getData().getX() > 900)
-                        nave.getData().setX(-20);
-                }
+            nave.getData().draw(g);
+            //<metodo de dibujar disparos aqui>
 
-                // ARREGLAR EL MOVIMIENTO DE LAS NAVES (Debe ser alrededor de toda la pantalla).
-                nave.getData().mover("UP");
+            nave.getData().mover("UP");
 
-                //Colision con las balas.
-                Node<Municion> municion_jugador = disparos.getHead();
+            detectar_colision_con_balas(nave);
 
-                while (municion_jugador.getNext() != null) {
-                    if (nave.getData().getX() >= municion_jugador.getData().getX() && nave.getData().getX() <= municion_jugador.getData().getX() + 100 && nave.getData().getY() >= municion_jugador.getData().getY() && nave.getData().getY() <= municion_jugador.getData().getY() + 80) {
-                        naves_enemigas.remove(nave);
-                        disparos.remove(municion_jugador);
-                        jugador.sumar_puntaje(nave.getData().get_tipo());
-                    }
-
-                    municion_jugador = municion_jugador.getNext();
-                }
-                nave = nave.getNext();
-            }
-        }catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             //
+        }
+    }
+
+    public void detectar_colision_con_balas(Node<ObjetoMovil> nave){
+
+        //Colision con las balas.
+        Node<Municion> municion_jugador = jugador.get_municion().getHead();
+
+        while (municion_jugador.getNext() != null) {
+            if (nave.getData().getX() >= municion_jugador.getData().getX() && nave.getData().getX() <= municion_jugador.getData().getX() + 100 && nave.getData().getY() >= municion_jugador.getData().getY() && nave.getData().getY() <= municion_jugador.getData().getY() + 80) {
+                nivel.getNaves_enemigas().remove(nave);
+                jugador.get_municion().remove(municion_jugador);
+                jugador.sumar_puntaje(nave.getData().get_tipo());
+            }
+            municion_jugador = municion_jugador.getNext();
         }
     }
 
     @SuppressWarnings("unchecked")
     private void dibujar_disparos(Graphics g){
 
-        Node<Municion> municion_jugador = disparos.getHead();
+        Node<Municion> municion_jugador = jugador.get_municion().getHead();
+
         while (municion_jugador.getNext() != null) {
 
             municion_jugador.getData().draw(g);
@@ -180,34 +164,6 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
 
             municion_jugador = municion_jugador.getNext();
         }
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private void dibujar_disparos_enemigos(Graphics g, int x, int y){
-
-        cambiar_posicion_disparos_enemigos(x,y);
-
-        Node<Municion> municion_enemiga = disparos_enemigos.getHead();
-
-        ObjetoMovil nave_enemiga = (ObjetoMovil) naves_enemigas.getHead().getData();
-
-        while (municion_enemiga.getNext() != null){
-
-            municion_enemiga.getData().draw(g);
-            municion_enemiga.getData().mover("UP");
-
-            if (jugador.getX() >= municion_enemiga.getData().getX() && jugador.getX() <= municion_enemiga.getData().getX() + 100 && jugador.getY() >= municion_enemiga.getData().getY() && jugador.getY() <= municion_enemiga.getData().getY() + 80){
-                disparos_enemigos.remove(municion_enemiga);
-                if (nave_enemiga.get_tipo().equals("jet")){
-                    jugador.restar_hp(0.001);
-                }else {
-                    jugador.restar_hp(0.003);
-                }
-            }
-            municion_enemiga = municion_enemiga.getNext();
-        }
-
     }
 
     /**
@@ -236,8 +192,9 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
             }
         }
         if(keys[4]){
-            Municion disparo_jugador = new Municion(jugador.getX()+28, jugador.getY(), 5);
-            disparos.addLast(disparo_jugador);
+
+            Municion disparo_jugador = new Municion(jugador.getX() + 28, jugador.getY(), 5);
+            jugador.get_municion().addLast(disparo_jugador);
 
             keys[4] = false;
         }
@@ -293,96 +250,54 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
     }
 
 
-    public void keyTyped(KeyEvent e)
-    {
+    public void keyTyped(KeyEvent e){
 
     }
 
-    /**
-     * Genera naves enemigas aleatoriamente.
-     */
-    private void generar_naves_enemigas(){
-
-        int x = rd.nextInt(800); //(int)(Math.random()*getWidth());
-        int y = rd.nextInt(30);//(int)(Math.random()*(getHeight()-200));
-
-        if(timer_enemigo.isRunning()){
-            naves_enemigas.enqueue(ObjetoMovil.generar_nave_aleatoria(x, y));
-
-            System.out.println("SIZE: " + disparos_enemigos.getSize());
-        }
-    }
     /**
      *Inicia la aparición de naves, iniciando el timer.
      */
     private void iniciar_ataque(){
 
-        if(timer_enemigo == null){
+        if(timer_naves == null){
 
-            timer_enemigo = new Timer(ATAQUE_ENEMIGO, new AirWarGUI.TimerHandler());
-            timer_enemigo.start();
+            timer_naves = new Timer(3000, new AirWarGUI.TimerHandler());
+            timer_naves.start();
 
         }
         else{
-            if(!timer_enemigo.isRunning()){
-                timer_enemigo.restart();
+            if(!timer_naves.isRunning()){
+                timer_naves.restart();
             }
         }
     }
 
-    /**
-     * Crea más naves.
-     */
+    @SuppressWarnings("unchecked")
     private class TimerHandler implements  ActionListener {
+
+        Node<ObjetoMovil> nave = nivel.getNaves_enemigas().getHead();
+
         public void actionPerformed(ActionEvent actionEvent){
-            generar_naves_enemigas();
+            System.out.println("funciona?");
+
+            dibujar_enemigos(g_fondo,nave);
+
+            nivel.getNaves_enemigas().dequeue();
         }
     }
 
     /**
      *Ciclo que actualiza la ventana.
      */
-    public void run()
-    {
-        try
-        {
-            while(true)
-            {
+    public void run(){
+        try{
+            while(true){
                 Thread.currentThread().sleep(5);
                 repaint();
             }
         }
         catch(Exception e){
-
         }
     }
-
-    private void cargar_disparos_enemigos(){
-
-        int i = 0;
-
-        while (i < 1000){
-            disparos_enemigos.addLast(new Municion(50,50,20));
-            i++;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void cambiar_posicion_disparos_enemigos(int x, int y){
-
-        Node<Municion> municion_enemiga = disparos_enemigos.getHead();
-
-        int cambio = 20;
-
-        while (municion_enemiga.getNext() != null){
-            municion_enemiga.getData().setX(x + 30);
-            municion_enemiga.getData().setY(y + cambio);
-
-            municion_enemiga = municion_enemiga.getNext();
-            cambio += 20;
-        }
-    }
-
-
 
 }

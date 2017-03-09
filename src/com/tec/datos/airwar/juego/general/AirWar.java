@@ -1,5 +1,8 @@
 package com.tec.datos.airwar.juego.general;
 
+import com.tec.datos.airwar.estructuras.*;
+import com.tec.datos.airwar.estructuras.List;
+import com.tec.datos.airwar.juego.torres.Torre;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -14,25 +17,29 @@ public class AirWar extends JFrame {
 
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
+    private Nivel nivel_actual;
+    private int numero_nivel = 1;
 
     /**
      * Instanciacion de un nuevo juego.
      */
-    public AirWar()
-    {
+    public AirWar() {
         super("Air War");
-        setSize(WIDTH,HEIGHT);
+        setSize(WIDTH, HEIGHT);
 
-        AirWarGUI theGame = new AirWarGUI();
+        nivel_actual = new Nivel(numero_nivel);
 
-        ((Component)theGame).setFocusable(true);
+        AirWarGUI AirWarGame = new AirWarGUI(nivel_actual);
 
-        getContentPane().add(theGame);
+        ((Component) AirWarGame).setFocusable(true);
+
+        getContentPane().add(AirWarGame);
 
         setVisible(true);
 
         setResizable(false);
     }
+
 
     /**
      * Musica de fondo.
@@ -57,9 +64,10 @@ public class AirWar extends JFrame {
 
     public static void main(String[] args) {
 
-        AirWar airWar = new AirWar();
+        System.out.print(1000 % 100);
 
-        //airWar.play_music();
+        AirWar airWar = new AirWar();
+        airWar.play_music();
 
     }
 }

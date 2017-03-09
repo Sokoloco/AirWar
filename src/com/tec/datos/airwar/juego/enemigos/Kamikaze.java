@@ -1,5 +1,8 @@
 package com.tec.datos.airwar.juego.enemigos;
 
+import com.tec.datos.airwar.estructuras.*;
+import com.tec.datos.airwar.estructuras.List;
+import com.tec.datos.airwar.juego.general.Municion;
 import com.tec.datos.airwar.juego.general.ObjetoMovil;
 
 import javax.imageio.ImageIO;
@@ -17,13 +20,10 @@ public class Kamikaze extends ObjetoMovil {
     public Kamikaze(int x, int y){
         super(x, y);
 
-        try
-        {
+        try {
             imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/juego/kamikaze.png"));
         }
-        catch(Exception e)
-        {
-
+        catch(Exception e) {
         }
     }
 
@@ -42,5 +42,10 @@ public class Kamikaze extends ObjetoMovil {
 
     public String get_tipo(){
         return tipo;
+    }
+
+    @Override
+    public List<Municion> get_municion() {
+        return null;
     }
 }

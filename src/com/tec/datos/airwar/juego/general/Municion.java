@@ -1,4 +1,7 @@
 package com.tec.datos.airwar.juego.general;
+import com.tec.datos.airwar.estructuras.*;
+import com.tec.datos.airwar.estructuras.List;
+
 import java.awt.*;
 
 public class Municion extends ObjetoMovil {
@@ -29,7 +32,12 @@ public class Municion extends ObjetoMovil {
     public void draw( Graphics ventana )
     {
         ventana.setColor(Color.yellow);
-        ventana.fillRect(getX(), getY(), 5, 5); //add code to draw the ammo
+        ventana.fillRect(getX(), getY(), 5, 5);
+    }
+
+    @Override
+    public List<Municion> get_municion() {
+        return null;
     }
 
 

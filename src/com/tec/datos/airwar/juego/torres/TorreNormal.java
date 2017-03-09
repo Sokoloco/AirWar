@@ -1,5 +1,6 @@
 package com.tec.datos.airwar.juego.torres;
 
+
 import com.tec.datos.airwar.estructuras.*;
 import com.tec.datos.airwar.estructuras.List;
 import com.tec.datos.airwar.juego.general.Municion;
@@ -9,17 +10,17 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class TorreMisiles extends Torre {
+public class TorreNormal extends Torre {
 
-    private final int ATAQUE = 100;
-    private final int RESISTENCIA = 100;
+    private final int ATAQUE = 50;
+    private final int RESISTENCIA = 50;
     private Image imagen;
 
-    public TorreMisiles(int x, int y){
+    public TorreNormal(int x, int y){
         super(x,y);
 
         try {
-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/juego/mTurret.png"));
+            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/juego/turret.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,5 +45,6 @@ public class TorreMisiles extends Torre {
     public List<Municion> get_municion() {
         return null;
     }
+
 
 }

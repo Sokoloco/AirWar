@@ -278,7 +278,6 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable{
         Node<ObjetoMovil> nave = nivel.getNaves_enemigas().getHead();
 
         public void actionPerformed(ActionEvent actionEvent){
-            System.out.println("funciona?");
 
             dibujar_enemigos(g_fondo,nave);
 

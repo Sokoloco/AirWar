@@ -14,15 +14,19 @@ public class TorreMisiles extends Torre {
     private final int ATAQUE = 100;
     private final int RESISTENCIA = 100;
     private Image imagen;
+    private Queue<Municion> municion;
+    String tipo = "misiles";
 
     public TorreMisiles(int x, int y){
         super(x,y);
 
         try {
-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/juego/mTurret.png"));
+            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/mTurret.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        municion = new Queue<>();
     }
 
     @Override
@@ -40,9 +44,12 @@ public class TorreMisiles extends Torre {
         ventana.drawImage(imagen,getX(),getY(),80,80,null);
     }
 
-    @Override
-    public List<Municion> get_municion() {
-        return null;
+    public Queue<Municion> get_municion() {
+        return municion;
+    }
+
+    public String get_tipo(){
+        return tipo;
     }
 
 }

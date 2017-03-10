@@ -1,5 +1,6 @@
 package com.tec.datos.airwar.juego.enemigos;
 
+import com.tec.datos.airwar.estructuras.*;
 import com.tec.datos.airwar.estructuras.List;
 import com.tec.datos.airwar.juego.general.Municion;
 import com.tec.datos.airwar.juego.general.ObjetoMovil;
@@ -14,7 +15,7 @@ public class Jet extends ObjetoMovil {
     private final int RESISTENCIA = 50;
     private final int VELOCIDAD = 3;     // 1 -> slow , 5 -> fast
     private String tipo = "jet";
-    private List<Municion> municion;
+    private Queue<Municion> municion;
     private Image image;
 
     public void setVELOCIDAD(int s) {
@@ -24,26 +25,17 @@ public class Jet extends ObjetoMovil {
     public Jet(int x, int y) {
         super(x, y);
 
-        municion = new List<>();
+        municion = new Queue<>();
 
         try
         {
-            image = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/juego/ship3.png"));
+            image = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/ship3.png"));
         }
-        catch(Exception e)
-        {
-
-        }
-        inicializar_municion(20);
-    }
-
-
-    public void inicializar_municion(int cantidad){
-
-        for (int i = 0; i < cantidad; i++){
-            municion.addLast(new Municion(50,50, 5));
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
+
 
     public int getVELOCIDAD()
     {
@@ -64,7 +56,7 @@ public class Jet extends ObjetoMovil {
         return "Jet " + super.toString() + " Speed " + getVELOCIDAD();
     }
 
-    public List<Municion> get_municion(){
+    public Queue<Municion> get_municion(){
         return municion;
     }
 

@@ -19,11 +19,11 @@ public class FabricaNaves {
         String tipo = elegir_valor_aleatorio();
 
         if (tipo.equals("jet")){
-            return new Jet(x, y);
+            return new Jet(x, 0);
         }else if (tipo.equals("bombardero")){
-            return new Bombardero(x, y);
+            return new Bombardero(x, 0);
         }else {
-            return new Kamikaze(x,y);
+            return new Kamikaze(x,0);
         }
     }
 

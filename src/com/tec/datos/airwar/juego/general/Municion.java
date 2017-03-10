@@ -29,17 +29,21 @@ public class Municion extends ObjetoMovil {
      * Dibuja las balas en la ventana.
      * @param ventana donde le objeto es dibujado.
      */
-    public void draw( Graphics ventana )
+    public void draw(Graphics ventana)
     {
         ventana.setColor(Color.yellow);
         ventana.fillRect(getX(), getY(), 5, 5);
     }
 
-    @Override
-    public List<Municion> get_municion() {
-        return null;
+    public void draw(Graphics ventana, Color color){
+        ventana.setColor(color);
+        ventana.fillRect(getX(), getY(), 5,5);
     }
 
+    @Override
+    public Queue<Municion> get_municion() {
+        return null;
+    }
 
     public String toString()
     {

@@ -12,7 +12,7 @@ import java.io.File;
 
 public class Kamikaze extends ObjetoMovil {
 
-    private final int VELOCIDAD = 5;
+    private final int VELOCIDAD = 20;
     private final int RESISTENCIA = 50;
     private String tipo = "kamikaze";
     private Image imagen;
@@ -21,15 +21,18 @@ public class Kamikaze extends ObjetoMovil {
         super(x, y);
 
         try {
-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/juego/kamikaze.png"));
+            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/kamikaze.png"));
         }
         catch(Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void setVELOCIDAD(int s) {
 
     }
+
+
 
     public int getVELOCIDAD() {
         return VELOCIDAD;
@@ -44,8 +47,7 @@ public class Kamikaze extends ObjetoMovil {
         return tipo;
     }
 
-    @Override
-    public List<Municion> get_municion() {
+    public Queue<Municion> get_municion() {
         return null;
     }
 }

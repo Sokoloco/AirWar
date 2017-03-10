@@ -25,8 +25,7 @@ public class Jefe extends ObjetoMovil {
 
     }
 
-    @Override
-    public List<Municion> get_municion() {
+    public Queue<Municion> get_municion() {
         return null;
     }
 }

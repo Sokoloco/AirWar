@@ -64,10 +64,8 @@ public class AirWar extends JFrame {
 
     public static void main(String[] args) {
 
-        System.out.print(1000 % 100);
-
         AirWar airWar = new AirWar();
-        airWar.play_music();
+        //airWar.play_music();
 
     }
 }

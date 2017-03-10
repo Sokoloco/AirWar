@@ -17,7 +17,7 @@ public class NaveJugador extends ObjetoMovil
     private int vidas;
     private int hp;
 
-    private List<Municion> municion;
+    private Queue<Municion> municion;
     private boolean es_invencible = false;
     private Stack<Poder> poderes;
 
@@ -25,17 +25,17 @@ public class NaveJugador extends ObjetoMovil
     {
         super(x, y);
 
-        municion = new List<>();
+        municion = new Queue<>();
 
         puntaje = 0;
         vidas = 3;
         hp = 1000;
 
         try{
-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/juego/ship.png"));
+            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/ship.png"));
         }
         catch(Exception e){
-
+            e.printStackTrace();
         }
     }
 
@@ -62,8 +62,7 @@ public class NaveJugador extends ObjetoMovil
         ventana.drawImage(imagen,getX(),getY(),80,80,null);
     }
 
-    @Override
-    public List<Municion> get_municion() {
+    public Queue<Municion> get_municion() {
         return municion;
     }
 
@@ -83,12 +82,23 @@ public class NaveJugador extends ObjetoMovil
     }
 
     public void sumar_puntaje(String tipo){
-        if (tipo.equals("jet")){
-            puntaje += 250;
-        }else if (tipo.equals("bombardero")){
-            puntaje += 400;
-        }else {
-            puntaje += 500;
+
+        switch (tipo){
+            case "jet":
+                puntaje += 250;
+                break;
+            case "kamikaze":
+                puntaje += 400;
+                break;
+            case "normal":
+                puntaje += 100;
+                break;
+            case "misiles":
+                puntaje += 200;
+                break;
+            case "bombardero":
+                puntaje += 100;
+                break;
         }
     }
 

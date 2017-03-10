@@ -1,10 +1,7 @@
 package com.tec.datos.airwar.juego.general;
 
 import com.tec.datos.airwar.estructuras.*;
-import com.tec.datos.airwar.estructuras.List;
-import com.tec.datos.airwar.juego.enemigos.Bombardero;
-import com.tec.datos.airwar.juego.enemigos.Jet;
-import com.tec.datos.airwar.juego.enemigos.Kamikaze;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -85,18 +82,16 @@ public abstract class ObjetoMovil implements Localizable
 
     }
 
-    public void mover(int x, int y){
+    public void mover_hacia(int x, int y){
 
-        if (this.getY() > y){
-            yPos--;
+        if (getY() < y && getX() > x){
+            yPos += 3;
+            xPos -= 3;
+        }else if (getY() < y && getX() < x){
+            yPos += 3;
+            xPos += 3;
         }else {
-            yPos++;
-        }
-
-        if (this.getX() > x){
-            xPos--;
-        }else {
-            yPos++;
+            yPos += 3;
         }
     }
 
@@ -106,27 +101,6 @@ public abstract class ObjetoMovil implements Localizable
 
         mover(elegir_valor_aleatorio(movimiento_validos));
 
-    }
-
-    /**
-     * Genera cualquier tipo de nave.
-     * @param x posicion en x.
-     * @param y posicion en y.
-     * @return una nave aleatoria.
-     */
-    public static ObjetoMovil generar_nave_aleatoria(int x, int y){
-
-        String[] naves = {"jet", "bombardero", "kamikaze"};
-
-        String nave = elegir_valor_aleatorio(naves);
-
-        if (nave.equals("jet")){
-            return new Jet(x,y);
-        }else if (nave.equals("bombardero")){
-            return new Bombardero(x,y);
-        }else {
-            return new Kamikaze(x,y);
-        }
     }
 
     /**
@@ -141,11 +115,11 @@ public abstract class ObjetoMovil implements Localizable
         return array[rnd];
     }
 
+    public abstract Queue<Municion> get_municion();
+
     public String get_tipo(){
         return tipo;
     }
-
-    public abstract List<Municion> get_municion();
 
 
     /**

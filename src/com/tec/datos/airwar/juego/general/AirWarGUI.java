@@ -3,11 +3,13 @@ package com.tec.datos.airwar.juego.general;
 import com.tec.datos.airwar.estructuras.*;
 import com.tec.datos.airwar.juego.torres.Torre;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import javax.swing.Timer;
 
 public class AirWarGUI extends Canvas implements KeyListener, Runnable {
 
@@ -16,7 +18,6 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable {
 
     private boolean[] keys;
     private BufferedImage fondo;
-
     private Graphics g_fondo;
 
     /**
@@ -36,9 +37,7 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable {
 
         this.addKeyListener(this);
         new Thread(this).start();
-
         setVisible(true);
-
     }
 
     /**
@@ -68,6 +67,10 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable {
 
         g.setColor(Color.GREEN);
         g.drawString("HP:" + String.valueOf(jugador.get_hp()), 25, 130);
+
+        g.setColor(Color.lightGray);
+        g.setFont(new Font("Impact", Font.ITALIC, 20));
+        g.drawString("Power Ups: ", 30, 550);
     }
 
     /**
@@ -107,12 +110,17 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable {
         dibujar_disparos();
         dibujar_torres(nivel.getTorres().getHead());
         verificar_puntaje();
+        dibujar_poder();
+
+        if (jugador.get_poderes().get_head() != null){
+            dibujar_poder(100,525);
+        }
 
         jugador.draw(g_fondo);
         twoDGraph.drawImage(fondo, null, 0, 0);
     }
 
-    private void verificar_puntaje() {                       //Cuando se pase de nivel se detiene el timer y se genera al jefe. Cuando el jefe es vencido se reinicia el timer y se continua normal.
+    private void verificar_puntaje() {
         if (jugador.get_puntaje() > 3000 && nivel.numero_nivel == 1) {
             //Aqui debe iniciarse un nuevo nivel
             nivel.numero_nivel++;
@@ -197,10 +205,9 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable {
 
         while (municion_torre != null) {
             municion_torre.getData().draw(g_fondo);
-            municion_torre.getData().mover_hacia(jugador.getX(), jugador.getY());
+            municion_torre.getData().mover_hacia(jugador.getX() + 50, jugador.getY() + 50);
 
-            if (municion_torre.getData().getY() > jugador.getY()) {
-                municion_torre.getData().mover_hacia(torre.getX(), torre.getY());
+            if (municion_torre.getData().getY() > jugador.getY() + 100) {
                 municion_torre.getData().draw(g_fondo, Color.BLACK);
             }
             municion_torre = municion_torre.getNext();
@@ -218,21 +225,51 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable {
         Node<Municion> municion_jugador = jugador.get_municion().get_head();
 
         while (municion_jugador.getNext() != null) {
+
             if (torre == null) {
                 if (nave.getData().getX() >= municion_jugador.getData().getX() && nave.getData().getX() <= municion_jugador.getData().getX() + 100 && nave.getData().getY() >= municion_jugador.getData().getY() && nave.getData().getY() <= municion_jugador.getData().getY() + 80) {
                     nivel.getNaves_enemigas().dequeue();
                     jugador.get_municion().dequeue();
                     jugador.sumar_puntaje(nave.getData().get_tipo());
+                    nivel.get_poderes().dequeue();
                 }
             } else if (nave == null) {
                 if (torre.getData().getX() >= municion_jugador.getData().getX() && torre.getData().getX() <= municion_jugador.getData().getX() + 100 && torre.getData().getY() >= municion_jugador.getData().getY() && torre.getData().getY() <= municion_jugador.getData().getY() + 80) {
-                    nivel.getTorres().removeHead();
+                    //nivel.getTorres().removeHead();
                     jugador.get_municion().dequeue();
                     jugador.sumar_puntaje(torre.getData().get_tipo());
                 }
             }
             municion_jugador = municion_jugador.getNext();
         }
+    }
+
+    public void  dibujar_poder(){
+
+        Node<Poder> poderNode = nivel.get_poderes().get_head();
+
+        poderNode.getData().draw(g_fondo);
+
+        //colision con el poder
+        if(poderNode.getData().getX() >= jugador.getX() && poderNode.getData().getX() <= jugador.getX() + 100 && poderNode.getData().getY() >= jugador.getY() && poderNode.getData().getY() <= jugador.getY() + 80){
+            jugador.get_poderes().push(poderNode.getData());
+            nivel.get_poderes().dequeue();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void dibujar_poder(int x, int y){
+
+        int dx = 30;
+
+        Node<Poder> poderNode = jugador.get_poderes().get_head();
+
+        while (poderNode.getNext() != null){
+            poderNode.getData().draw(g_fondo, x + dx, y);
+            dx += 35;
+            poderNode = poderNode.getNext();
+        }
+
     }
 
     /**
@@ -353,5 +390,4 @@ public class AirWarGUI extends Canvas implements KeyListener, Runnable {
         catch(Exception e){
         }
     }
-
 }

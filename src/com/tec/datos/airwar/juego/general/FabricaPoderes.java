@@ -16,9 +16,9 @@ public class FabricaPoderes {
         if (tipo.equals("misil")){
             return new Poder(x,y, tipo);
         }else if (tipo.equals("escudo")){
-            return new Poder(x,y,tipo);
+            return new Poder(x,y, tipo);
         }else {
-            return new Poder(x,y,tipo);
+            return new Poder(x,y, tipo);
         }
 
     }

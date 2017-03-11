@@ -24,7 +24,7 @@ public class Bombardero extends ObjetoMovil {
         municion = new Queue<>();
 
         try{
-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/bomber.png"));
+            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWarGH/src/com/tec/datos/airwar/resources/bomber.png"));
         }
         catch(Exception e){
             e.printStackTrace();

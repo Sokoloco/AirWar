@@ -13,7 +13,7 @@ import java.io.File;
 public class Jet extends ObjetoMovil {
 
     private final int RESISTENCIA = 50;
-    private final int VELOCIDAD = 3;     // 1 -> slow , 5 -> fast
+    private final int VELOCIDAD = 1;     // 1 -> slow , 5 -> fast
     private String tipo = "jet";
     private Queue<Municion> municion;
     private Image image;
@@ -29,7 +29,7 @@ public class Jet extends ObjetoMovil {
 
         try
         {
-            image = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/ship3.png"));
+            image = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWarGH/src/com/tec/datos/airwar/resources/ship3.png"));
         }
         catch(Exception e){
             e.printStackTrace();

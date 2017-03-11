@@ -31,4 +31,8 @@ public class Stack<S>{
         return head == null;
     }
 
+    public Node get_head(){
+        return head;
+    }
+
 }

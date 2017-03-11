@@ -1,5 +1,8 @@
 package com.tec.datos.airwar.juego.general;
 
+import com.tec.datos.airwar.estructuras.*;
+import com.tec.datos.airwar.juego.general.Localizable;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -10,24 +13,35 @@ public class Poder implements Localizable {
     private int xPos;
     private int yPos;
     private Image imagen;
-    String tipo;
-
+    private String tipo;
 
     public Poder(int x, int y, String tipo){
         setPos(x,y);
         this.tipo = tipo;
 
         try {
-            if (tipo.equals("misil")){
-                imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/misil_orb.png"));
-            }else if (tipo.equals("laser")){
-                imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/laser_orb.png"));
-            }else {
-                imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/shield_orb.png"));
+            switch (tipo){
+                case "misil":
+                    imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWarGH/src/com/tec/datos/airwar/resources/misil_orb.png"));
+                    break;
+                case "escudo":
+                    imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWarGH/src/com/tec/datos/airwar/resources/shield_orb.png"));
+                    break;
+                case "laser":
+                    imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWarGH/src/com/tec/datos/airwar/resources/laser_orb.png"));
+                    break;
             }
-        }catch (IOException e){
-            e.printStackTrace();
+        }catch (IOException j){
+            j.printStackTrace();
         }
+    }
+
+    public void draw(Graphics ventana){
+        ventana.drawImage(imagen,getX(),getY(),40,35,null);
+    }
+
+    public void draw(Graphics ventana, int x, int y){
+        ventana.drawImage(imagen,x,y,40,35,null);
     }
 
     @Override
@@ -55,5 +69,10 @@ public class Poder implements Localizable {
     public int getY() {
         return yPos;
     }
+
+    public String get_tipo(){
+        return tipo;
+    }
+
 
 }

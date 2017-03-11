@@ -21,7 +21,7 @@ public class Kamikaze extends ObjetoMovil {
         super(x, y);
 
         try {
-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/kamikaze.png"));
+            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWarGH/src/com/tec/datos/airwar/resources/kamikaze.png"));
         }
         catch(Exception e) {
             e.printStackTrace();

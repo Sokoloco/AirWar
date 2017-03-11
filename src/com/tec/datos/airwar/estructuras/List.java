@@ -1,7 +1,5 @@
 package com.tec.datos.airwar.estructuras;
 
-
-
 public class List<T> {
 
     private Node head;

@@ -95,26 +95,6 @@ public abstract class ObjetoMovil implements Localizable
         }
     }
 
-    public void mover_aleatoriamente(){
-
-        String[] movimiento_validos = {"LEFT", "RIGHT", "UP"};
-
-        mover(elegir_valor_aleatorio(movimiento_validos));
-
-    }
-
-    /**
-     * Elige un valor aleatorio de un array.
-     * @param array array donde se quiere elegir.
-     * @return un valor aleatorio.
-     */
-    private static String elegir_valor_aleatorio(String[] array) {
-
-        int rnd = rd.nextInt(array.length);
-
-        return array[rnd];
-    }
-
     public abstract Queue<Municion> get_municion();
 
     public String get_tipo(){

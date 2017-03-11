@@ -1,8 +1,6 @@
 package com.tec.datos.airwar.juego.general;
 
 import com.tec.datos.airwar.estructuras.*;
-import com.tec.datos.airwar.estructuras.List;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -26,6 +24,7 @@ public class NaveJugador extends ObjetoMovil
         super(x, y);
 
         municion = new Queue<>();
+        poderes = new Stack<>();
 
         puntaje = 0;
         vidas = 3;
@@ -120,6 +119,10 @@ public class NaveJugador extends ObjetoMovil
 
     public boolean get_es_invencible(){
         return es_invencible;
+    }
+
+    public Stack<Poder> get_poderes(){
+        return poderes;
     }
 }
 

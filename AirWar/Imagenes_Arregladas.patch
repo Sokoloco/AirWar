@@ -1,0 +1,158 @@
+Index: src/com/tec/datos/airwar/juego/torres/TorreMisiles.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/torres/TorreMisiles.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/torres/TorreMisiles.java	(revision )
+@@ -21,7 +21,7 @@
+         super(x,y);
+ 
+         try {
+-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/mTurret.png"));
++            imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\mturret.png"));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+Index: src/com/tec/datos/airwar/juego/enemigos/Bombardero.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/enemigos/Bombardero.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/enemigos/Bombardero.java	(revision )
+@@ -24,7 +24,7 @@
+         municion = new Queue<>();
+ 
+         try{
+-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/bomber.png"));
++            imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\bomber.png"));
+         }
+         catch(Exception e){
+             e.printStackTrace();
+Index: src/com/tec/datos/airwar/juego/enemigos/Jet.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/enemigos/Jet.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/enemigos/Jet.java	(revision )
+@@ -29,7 +29,7 @@
+ 
+         try
+         {
+-            image = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/ship3.png"));
++            image = ImageIO.read(new File(""));
+         }
+         catch(Exception e){
+             e.printStackTrace();
+Index: src/com/tec/datos/airwar/juego/general/Poder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/general/Poder.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/general/Poder.java	(revision )
+@@ -19,11 +19,11 @@
+ 
+         try {
+             if (tipo.equals("misil")){
+-                imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/misil_orb.png"));
++                imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\misil_orb.png"));
+             }else if (tipo.equals("laser")){
+-                imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/laser_orb.png"));
++                imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\laser_orb.png"));
+             }else {
+-                imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/shield_orb.png"));
++                imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\shield_orb.png"));
+             }
+         }catch (IOException e){
+             e.printStackTrace();
+Index: src/com/tec/datos/airwar/juego/general/AirWar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/general/AirWar.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/general/AirWar.java	(revision )
+@@ -46,7 +46,7 @@
+      */
+     public void play_music(){
+ 
+-        String file_path = "C:/Users/dell-pc/Desktop/AW Music/mf.wav";
++        /*String file_path = "C:/Users/dell-pc/Desktop/AW Music/mf.wav";
+ 
+         try {
+             InputStream in = new FileInputStream(file_path);
+@@ -59,7 +59,7 @@
+             e.printStackTrace();
+         } catch (IOException x){
+             x.printStackTrace();
+-        }
++        }*/
+     }
+ 
+     public static void main(String[] args) {
+Index: src/com/tec/datos/airwar/juego/general/NaveJugador.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/general/NaveJugador.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/general/NaveJugador.java	(revision )
+@@ -32,7 +32,7 @@
+         hp = 1000;
+ 
+         try{
+-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/ship.png"));
++            imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\ship.png"));
+         }
+         catch(Exception e){
+             e.printStackTrace();
+Index: src/com/tec/datos/airwar/juego/torres/TorreNormal.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/torres/TorreNormal.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/torres/TorreNormal.java	(revision )
+@@ -22,7 +22,7 @@
+         super(x,y);
+ 
+         try {
+-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/turret.png"));
++            imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\turret.png"));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+Index: src/com/tec/datos/airwar/juego/general/Nivel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/general/Nivel.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/general/Nivel.java	(revision )
+@@ -30,6 +30,7 @@
+             naves_enemigas.enqueue(FabricaNaves.crear_nueva_torre());
+         }
+         //DEFINIR LUEGO BIEN EL JEFE, CUANDO SE DEFINA L¿DICHA CLASE.
++        System.out.println("Ahora si papa, llego la vara");
+         naves_enemigas.enqueue(new Jefe());
+ 
+     }
+Index: src/com/tec/datos/airwar/juego/enemigos/Kamikaze.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/tec/datos/airwar/juego/enemigos/Kamikaze.java	(revision f3438ebe753d58daa998a158133c1b1b9cbef05d)
++++ src/com/tec/datos/airwar/juego/enemigos/Kamikaze.java	(revision )
+@@ -21,7 +21,7 @@
+         super(x, y);
+ 
+         try {
+-            imagen = ImageIO.read(new File("C:/Users/dell-pc/Desktop/AirWar/src/com/tec/datos/airwar/resources/kamikaze.png"));
++            imagen = ImageIO.read(new File("C:\\Users\\Luis\\IdeaProjects\\AirWar\\src\\com\\tec\\datos\\airwar\\resources\\kamikaze.png"));
+         }
+         catch(Exception e) {
+             e.printStackTrace();
